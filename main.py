@@ -10,7 +10,7 @@ import os
 @register(
     "gsign",
     "Nova",
-    "每日自动群签到插件，支持白名单/黑名单模式",
+    "[仅支持NapCat] 每日自动群签到插件，支持白名单/黑名单模式",
     "v1.0.0",
 )
 class GSignPlugin(Star):
