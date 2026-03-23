@@ -49,7 +49,6 @@ class GSignPlugin(Star):
     async def _do_sign(self):
         """执行每日签到，向符合条件的群发送签到消息"""
         mode = self.config.get("mode", "whitelist")
-        groups = self.config.get("groups", [])
         whitelist = self.config.get("whitelist", [])
         blacklist = self.config.get("blacklist", [])
 
@@ -69,9 +68,12 @@ class GSignPlugin(Star):
             logger.info("[gsign] 本次没有需要签到的群")
             return
 
+        # 获取平台适配器
+        platform = self.context.get_platform()
+
         for gid in target_groups:
             try:
-                await self.context.send_group_sign_in(gid)
+                await platform.call_action("set_group_sign", group_id=gid)
                 logger.info(f"[gsign] 群 {gid} 签到完成")
             except Exception as e:
                 logger.error(f"[gsign] 群 {gid} 签到失败: {e}")
@@ -79,8 +81,12 @@ class GSignPlugin(Star):
     async def _get_all_groups(self):
         """获取 bot 所在的所有群 ID"""
         try:
-            groups = await self.context.get_all_groups()
-            return [g.get("group_id") or g.get("group_id") for g in groups if g]
+            platform = self.context.get_platform()
+            result = await platform.call_action("get_group_list")
+            # result 为群信息列表，提取 group_id
+            if isinstance(result, list):
+                return [str(g.get("group_id", "")) for g in result if g.get("group_id")]
+            return []
         except Exception as e:
             logger.error(f"[gsign] 获取群列表失败: {e}")
             return []
