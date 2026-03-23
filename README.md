@@ -1,14 +1,34 @@
-# astrbot-plugin-helloworld
+# astrbot-plugin-gsign
 
-AstrBot 插件模板 / A template plugin for AstrBot plugin feature
+AstrBot 每日自动群签到插件
 
-> [!NOTE]
-> This repo is just a template of [AstrBot](https://github.com/AstrBotDevs/AstrBot) Plugin.
-> 
-> [AstrBot](https://github.com/AstrBotDevs/AstrBot) is an agentic assistant for both personal and group conversations. It can be deployed across dozens of mainstream instant messaging platforms, including QQ, Telegram, Feishu, DingTalk, Slack, LINE, Discord, Matrix, etc. In addition, it provides a reliable and extensible conversational AI infrastructure for individuals, developers, and teams. Whether you need a personal AI companion, an intelligent customer support agent, an automation assistant, or an enterprise knowledge base, AstrBot enables you to quickly build AI applications directly within your existing messaging workflows.
+## 功能特性
 
-# Supports
+- **每日凌晨自动签到**：每天 00:00 自动在符合条件的群执行签到
+- **开关控制**：通过指令 `/gsign开关 开|关` 随时启用/禁用
+- **白名单/黑名单模式**：灵活控制签到范围
+  - 白名单模式：仅白名单内的群号执行签到
+  - 黑名单模式：除黑名单外的所有群执行签到
+- **WebUI 支持**：可在插件管理页面可视化配置
 
-- [AstrBot Repo](https://github.com/AstrBotDevs/AstrBot)
-- [AstrBot Plugin Development Docs (Chinese)](https://docs.astrbot.app/dev/star/plugin-new.html)
-- [AstrBot Plugin Development Docs (English)](https://docs.astrbot.app/en/dev/star/plugin-new.html)
+## 指令列表
+
+| 指令 | 说明 |
+|------|------|
+| `/gsign` | 显示帮助信息 |
+| `/gsign开关 开` | 开启每日签到 |
+| `/gsign开关 关` | 关闭每日签到 |
+| `/gsign状态` | 查看当前配置状态 |
+| `/gsign模式 白名单` | 切换为白名单模式 |
+| `/gsign模式 黑名单` | 切换为黑名单模式 |
+| `/gsign添加群 <群号>` | 将群号加入当前模式列表 |
+| `/gsign移除群 <群号>` | 从当前模式列表移除群号 |
+
+## 模式说明
+
+- **白名单模式（默认）**：适合只想在特定群签到的场景，只有加入白名单的群才会执行签到
+- **黑名单模式**：适合需要全量签到但排除部分群的场景，除了黑名单内的群，其他群都会执行签到
+
+## 部署
+
+将此插件文件夹放入 AstrBot 的 `plugins` 目录下，重启即可。
